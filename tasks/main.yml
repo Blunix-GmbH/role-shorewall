@@ -48,19 +48,9 @@
     - zones
     - interfaces
     - policy
-    - masq
+    #- masq
     - tunnels
     - rules
   loop_control:
     loop_var: shorewall_config_file
   notify: restart shorewall
-
-
-
-# molecule is alomst as stupid as shorewall in this case...
-- name: make /etc/shorewall/masq immutable so shorewall does not delete it on restart >:( so idempotency tests do not fail
-  file:
-    path: /etc/shorewall/masq
-    attr: i
-  # only run on molecule
-  when: "'molecule-notest' in ansible_skip_tags"

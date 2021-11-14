@@ -13,14 +13,26 @@ shorewall_rule_template_util_gateway:
     dest_ports: 51820
     proto: udp
     action: ACCEPT
-  - name: allow incoming DNS via wireguard mesh
+  - name: allow incoming DNS from wireguard mesh
     src: mesh
     dest: local
     action: DNS(ACCEPT)
-  - name: allow incoming SSH via wireguard
-    src: "wg:{{ shorewall_nic_wireguard_net }}"
+  - name: allow incoming SSH from wireguard mesh
+    src: mesh
     dest: local
     action: SSH(ACCEPT)
+  - name: allow incoming DNS from wireguard admin
+    src: wgadm
+    dest: local
+    action: DNS(ACCEPT)
+  - name: allow incoming SSH from wireguard admin
+    src: wgadm
+    dest: local
+    action: SSH(ACCEPT)
+  - name: allow incoming Ping from wireguard admin
+    src: wgadm
+    dest: local
+    action: Ping(ACCEPT)
 
 shorewall_rule_template_util_monitoring:
   - name: allow outgoing prometheus-exporter via wireguard mesh
@@ -127,3 +139,10 @@ shorewall_rule_template_out_pub_ssh:
     src: local
     dest: pub
     action: SSH(ACCEPT)
+
+# Git
+shorewall_rule_template_inc_pub_git:
+  - name: allow incoming git via pub
+    src: pub
+    dest: local
+    action: Git(ACCEPT)
