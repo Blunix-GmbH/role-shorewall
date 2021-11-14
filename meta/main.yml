@@ -1,0 +1,21 @@
+galaxy_info:
+
+  description: installs and configures shorewall
+  author: Brian Wiborg and Peter Thurner
+  company: Blunix GmbH
+  license: Apache2
+  min_ansible_version: 2.9.10
+
+  platforms:
+  - name: Debian
+    versions:
+    - bullseye
+
+  galaxy_tags:
+  - blunix
+  - shorewall
+  - iptables
+  - nftables
+  - firewall
+
+dependencies: []

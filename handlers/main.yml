@@ -1,0 +1,35 @@
+- name: check shorewall syntax  # noqa 305
+  shell: shorewall check
+  register: check_shorewall_syntax_out
+  listen: restart shorewall
+
+- name: show check shorewall syntax output
+  debug:
+    msg: "{{ check_shorewall_syntax_out.stdout }}"
+  listen: restart shorewall
+
+- name: restart shorewall
+  systemd:
+    name: shorewall
+    state: restarted
+    enabled: True
+  listen: restart shorewall
+
+
+
+- name: check shorewall6 syntax  # noqa 305
+  shell: shorewall6 check
+  register: check_shorewall6_syntax_out
+  listen: shorewall6 restart
+
+- name: show check shorewall6 syntax output
+  debug:
+    msg: "{{ check_shorewall6_syntax_out.stdout }}"
+  listen: restart shorewall6
+
+- name: restart shorewall6
+  systemd:
+    name: shorewall6
+    state: restarted
+    enabled: True
+  listen: shorewall6 restart

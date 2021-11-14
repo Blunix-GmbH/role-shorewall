@@ -1,0 +1,5 @@
+extends: relaxed
+truthy: disable
+rules:
+  line-length:
+    max: 130

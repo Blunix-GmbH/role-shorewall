@@ -1,0 +1,10 @@
+shorewall_interfaces_custom: []
+shorewall_interfaces_default:
+  # All servers have a nic for traffic from public
+  - name: "{{ shorewall_nic_pub }}"
+    zone: pub
+    options: nosmurfs,routefilter=2,tcpflags,dhcp
+  # All servers have a wireguard mesh nic
+  - name: mesh
+    zone: mesh
+    options: "tcpflags,nosmurfs,routefilter,logmartians"

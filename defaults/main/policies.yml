@@ -1,0 +1,16 @@
+shorewall_policies_custom: []
+shorewall_policies_default:
+  # DROP incoming traffic from public
+  - source: pub
+    dest: all
+    policy: DROP
+  # REJECT and log all traffic from mesh
+  - source: mesh
+    dest: all
+    policy: REJECT
+    log_level: info
+  # REJECT and log all other connection attempts
+  - source: all
+    dest: all
+    policy: REJECT
+    log_level: info

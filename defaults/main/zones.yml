@@ -1,0 +1,20 @@
+shorewall_zones_custom: []
+shorewall_zones_default:
+  # loopback zone
+  - name: local
+    in_options: ""
+    options: ""
+    out_options: ""
+    type: firewall
+  # public exposed nic
+  - name: pub
+    in_options: ""
+    options: "dhcp"
+    out_options: ""
+    type: ipv4
+  # wireguard mesh
+  - name: "mesh"
+    in_options: ""
+    options: ""
+    out_options: ""
+    type: ipv4

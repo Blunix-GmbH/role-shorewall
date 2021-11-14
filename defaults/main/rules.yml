@@ -1,0 +1,106 @@
+shorewall_rules_custom: []
+shorewall_rules_default:
+
+  # WIREGUARD MESH
+  - name: allow outgoing wireguard mesh connections to all servers pub IPs
+    src: local
+    dest: "pub:{{ shorewall_all_nic_pub_ips | join(',') }}"
+    proto: udp,tcp
+    dest_ports: 51819
+    action: ACCEPT
+
+  - name: allow incoming wireguard mesh connections from all servers pub IPs
+    src: "pub:{{ shorewall_all_nic_pub_ips | join(',') }}"
+    dest: local
+    proto: udp,tcp
+    dest_ports: 51819
+    action: ACCEPT
+
+  # INCOMING FROM UTILITY STACK VIA PUB
+  - name: allow incoming SSH from gateway-1 and gateway-2 public IP via pub
+    src: "pub:{{ shorewall_util_pub_ip_gateway_1 }},{{ shorewall_util_pub_ip_gateway_2 }}"
+    dest: local
+    action: SSH(ACCEPT)
+
+  # INCOMING FROM UTILITY STACK VIA WIREGUARD MESH
+  - name: allow incoming SSH from gateway-1 and gateway-2 via wireguard mesh
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
+    dest: local
+    action: SSH(ACCEPT)
+
+  - name: allow incoming prometheus exporter from monitoring via wireguard mesh
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_monitoring_1 }}"
+    dest: local
+    dest_ports: 10999
+    proto: tcp
+    action: ACCEPT
+
+  - name: allow incoming rsync / ssh from backup via wireguard mesh
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_backup_1 }}"
+    dest: local
+    action: SSH(ACCEPT)
+
+  # OUTGOING TO UTILITY STACK VIA WIREGUARD MESH
+  - name: allow sending syslog via rsyslog to log via wireguard mesh
+    src: local
+    dest: "mesh:{{ shorewall_util_wg_mesh_ip_log_1 }}"
+    proto: udp
+    dest_ports: 5140
+    action: ACCEPT
+
+  - name: allow outgoing DNS queries to gateway-1 and gateway-2 via wireguard mesh
+    src: local
+    dest: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
+    action: DNS(ACCEPT)
+
+  # WIREGUARD MESH INTERNAL NETWORK ALL SERVERS
+  - name: allow incoming ICMP echo request/response via wireguard mesh
+    src: "mesh"
+    dest: local
+    proto: icmp
+    action: Ping(ACCEPT)
+
+  - name: allow outgoing ICMP echo request/response via wireguard mesh
+    src: local
+    dest: "mesh"
+    proto: icmp
+    action: Ping(ACCEPT)
+
+  # OUTGOING TO SPECIFIC PUB
+  - name: allow outgoing DNS queries to the hosting providers DNS servers
+    src: local
+    dest: "pub:{{ shorewall_dns_servers_hosting_provider | join(',') }}"
+    action: DNS(ACCEPT)
+
+  - name: allow outgoing NTP queries to the hosting providers NTP servers
+    src: local
+    dest: "pub:{{ shorewall_ntp_servers_hosting_provider | join(',') }}"
+    action: NTP(ACCEPT)
+
+  - name: allow outgoing STMP via pub
+    src: local
+    dest: "pub:{{ shorewall_smtp_servers | join(',') }}"
+    proto: tcp
+    dest_ports: 25,465,587
+    action: ACCEPT
+
+  - name: allow contacting hkp servers for gpg public keys via pub
+    src: local
+    dest: "pub:{{ shorewall_hkp_servers | join(',') }}"
+    action: HKP(ACCEPT)
+
+  # OUTGOING TO PUB
+  - name: allow important ICMP (route-negotiation and time-exceeded) via pub
+    src: local
+    dest: all
+    action: AllowICMPs(ACCEPT)
+
+  - name: allow cloning git repositories via pub
+    src: local
+    dest: pub
+    action: Git(ACCEPT)
+
+  - name: allow outgoing HTTP and HTTPS via pub
+    src: local
+    dest: pub
+    action: Web(ACCEPT)
