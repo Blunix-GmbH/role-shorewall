@@ -41,17 +41,12 @@ shorewall_rules_default:
     action: SSH(ACCEPT)
 
   # OUTGOING TO UTILITY STACK VIA WIREGUARD MESH
-  - name: allow sending syslog via rsyslog to log via wireguard mesh
+  - name: allow outgoing syslog via rsyslog to log via wireguard mesh
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_log_1 }}"
     proto: udp
     dest_ports: 5140
     action: ACCEPT
-
-  - name: allow outgoing DNS queries to gateway-1 and gateway-2 via wireguard mesh
-    src: local
-    dest: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
-    action: DNS(ACCEPT)
 
   # WIREGUARD MESH INTERNAL NETWORK ALL SERVERS
   - name: allow incoming ICMP echo request/response via wireguard mesh
@@ -67,6 +62,13 @@ shorewall_rules_default:
     action: Ping(ACCEPT)
 
   # OUTGOING TO SPECIFIC PUB
+  - name: allow outgoing DNS-over-HTTPS queries to dnscrypt servers via pub
+    src: local
+    dest: "pub"
+    proto: udp
+    dest_ports: 443,8443
+    action: ACCEPT
+
   - name: allow outgoing DNS queries to the hosting providers DNS servers
     src: local
     dest: "pub:{{ shorewall_dns_servers_hosting_provider | join(',') }}"

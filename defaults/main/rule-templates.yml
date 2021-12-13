@@ -13,14 +13,6 @@ shorewall_rule_template_util_gateway:
     dest_ports: 51820
     proto: udp
     action: ACCEPT
-  - name: allow incoming DNS from wireguard mesh
-    src: mesh
-    dest: local
-    action: DNS(ACCEPT)
-  - name: allow incoming SSH from wireguard mesh
-    src: mesh
-    dest: local
-    action: SSH(ACCEPT)
   - name: allow incoming DNS from wireguard admin
     src: wgadm
     dest: local
