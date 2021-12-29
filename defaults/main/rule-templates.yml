@@ -1,13 +1,13 @@
 shorewall_rule_templates: []
 shorewall_rule_templates_list: []
 
-# UTILITY STACK
+# Gateway Wireguard
 shorewall_rule_template_util_gateway:
-  - name: allow incoming SSH via pub
+  - name: allow incoming SSH from pub
     src: pub
     dest: local
     action: SSH(ACCEPT)
-  - name: allow incoming wireguard via pub
+  - name: allow incoming wireguard from pub
     src: pub
     dest: local
     dest_ports: 51820
@@ -26,53 +26,68 @@ shorewall_rule_template_util_gateway:
     dest: local
     action: Ping(ACCEPT)
 
+# Monitoring Prometheus / Grafana
 shorewall_rule_template_util_monitoring:
-  - name: allow outgoing prometheus-exporter via wireguard mesh
+  - name: allow incoming https from mesh:gateways
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
+    dest: local
+    action: HTTPS(ACCEPT)
+  - name: allow outgoing prometheus-exporter requests to mesh
     src: local
     dest: mesh
     dest_ports: 10999
     proto: tcp
     action: ACCEPT
 
+# Log Graylog
 shorewall_rule_template_util_log:
-  - name: allow incoming syslog via wireguard mesh
+  - name: allow incoming https from mesh:gateways
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
+    dest: local
+    action: HTTPS(ACCEPT)
+  - name: allow incoming syslog from mesh
     src: mesh
     dest: local
     dest_ports: 5140
     proto: udp
     action: ACCEPT
 
+# Backup Borgbackup
 shorewall_rule_template_util_backup:
-  - name: allow outgoing RSYNC / SSH for backup via wireguard mesh
-    src: local
-    dest: mesh
+  - name: allow incoming SSH for backups from mesh
+    src: mesh
+    dest: local
     action: SSH(ACCEPT)
 
+# Gitlab
 shorewall_rule_template_util_git:
-  - name: allow incoming SSH for git via wireguard mesh
-    src: mesh
+  - name: allow incoming https from mesh:gateways
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
     dest: local
-    action: SSH(ACCEPT)
-  - name: allow incoming git via wireguard mesh
-    src: mesh
-    dest: local
-    proto: tcp
-    dest_ports: 9418
-    action: ACCEPT
-  - name: allow incoming HTTPS from git for gitci via wireguard mesh
+    action: HTTPS(ACCEPT)
+  - name: allow incoming HTTPS from mesh:gitci
     src: "mesh:{{ shorewall_util_wg_mesh_ip_gitci_1 }}"
     dest: local
     action: HTTPS(ACCEPT)
+  - name: allow incoming docker registry from mesh:gitci
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_gitci_1 }}"
+    dest: local
+    dest_ports: 5555
+    proto: tcp
+    action: ACCEPT
 shorewall_rule_template_util_git_pub:
-  - name: allow incoming git via pub (for git clone / push)
+  - name: allow incoming HTTPS from pub
     src: pub
     dest: local
-    proto: tcp
-    dest_ports: 9418
-    action: ACCEPT
+    action: HTTPS(ACCEPT)
+  - name: allow incoming git from pub
+    src: pub
+    dest: local
+    action: Git(ACCEPT)
 
+# Gitlab CI
 shorewall_rule_template_util_gitci:
-  - name: allow outgoing HTTPS to git via wireguard mesh
+  - name: allow outgoing HTTPS to mesh:git
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_git_1 }}"
     action: HTTPS(ACCEPT)
@@ -81,60 +96,48 @@ shorewall_rule_template_util_gitci:
 
 # GITLAB CLIENT (git clone)
 shorewall_rule_template_git_client:
-  - name: allow outgoing SSH for git via wireguard mesh
+  - name: allow outgoing SSH to mesh:git
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_git_1 }}"
     action: SSH(ACCEPT)
-  - name: allow outgoing git via wireguard mesh
+  - name: allow outgoing git to mesh:git
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_git_1 }}"
     proto: tcp
-    dest_ports: 9418
-    action: ACCEPT
+    action: Git(ACCEPT)
 
 # HTTP / HTTPS
-shorewall_rule_template_inc_wg_mesh_http:
-  - name: allow incoming http via wireguard mesh
-    src: mesh
-    dest: local
-    proto: tcp
-    dest_ports: 80
-    action: ACCEPT
-  - name: allow incoming https via wireguard mesh
-    src: mesh
-    dest: local
-    proto: tcp
-    dest_ports: 443
-    action: ACCEPT
 shorewall_rule_template_inc_pub_http:
-  - name: allow incoming http via pub
+  - name: allow incoming http from pub
     src: pub
     dest: local
     proto: tcp
     dest_ports: 80
     action: ACCEPT
-  - name: allow incoming https via pub
+  - name: allow incoming https from pub
     src: pub
     dest: local
+    action: HTTPS(ACCEPT)
+shorewall_rule_template_inc_mesh_gw_http:
+  - name: allow incoming http from mesh:gateways
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
+    dest: local
     proto: tcp
-    dest_ports: 443
+    dest_ports: 80
     action: ACCEPT
+  - name: allow incoming https from mesh:gateways
+    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
+    dest: local
+    action: HTTPS(ACCEPT)
 
 # SSH
 shorewall_rule_template_inc_pub_ssh:
-  - name: allow incoming SSH via pub
+  - name: allow incoming SSH from pub
     src: pub
     dest: local
     action: SSH(ACCEPT)
 shorewall_rule_template_out_pub_ssh:
-  - name: allow outgoing SSH on pub
+  - name: allow outgoing SSH to pub
     src: local
     dest: pub
     action: SSH(ACCEPT)
-
-# Git
-shorewall_rule_template_inc_pub_git:
-  - name: allow incoming git via pub
-    src: pub
-    dest: local
-    action: Git(ACCEPT)
