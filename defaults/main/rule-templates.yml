@@ -91,8 +91,12 @@ shorewall_rule_template_util_gitci:
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_git_1 }}"
     action: HTTPS(ACCEPT)
-
-
+  - name: allow outgoing docker registry to mesh:git
+    src: local
+    dest: "mesh:{{ shorewall_util_wg_mesh_ip_git_1 }}"
+    dest_ports: 5555
+    proto: tcp
+    action: ACCEPT
 
 # GITLAB CLIENT (git clone)
 shorewall_rule_template_git_client:
