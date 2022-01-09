@@ -2,7 +2,7 @@
   set_fact:
     shorewall_zones: "{{ shorewall_zones_default + shorewall_zones_custom }}"
     shorewall_interfaces: "{{ shorewall_interfaces_default + shorewall_interfaces_custom }}"
-    shorewall_masquerade: "{{ shorewall_masquerade_default + shorewall_masquerade_custom }}"
+    shorewall_snat: "{{ shorewall_snat_default + shorewall_snat_custom }}"
     shorewall_tunnels: "{{ shorewall_tunnels_default + shorewall_tunnels_custom }}"
     # custom policies have to be loaded before final default policy to reject all
     shorewall_policies: "{{ shorewall_policies_custom + shorewall_policies_default }}"
@@ -48,7 +48,7 @@
     - zones
     - interfaces
     - policy
-    #- masq
+    - snat
     - tunnels
     - rules
   loop_control:
