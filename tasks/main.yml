@@ -24,17 +24,26 @@
 
 - name: install shorewall
   apt:
-    name: shorewall
+    name:
+      - shorewall
+      - shorewall6
     state: present
 
 - name: template /etc/default/shorewall
   template:
-    src: templates/etc/default/shorewall.j2
-    dest: /etc/default/shorewall
+    src: "templates/{{ shorewall_template_etc_default_shorewall_item }}.j2"
+    dest: "{{ shorewall_template_etc_default_shorewall_item }}"
     owner: root
     group: root
     mode: 0640
-  notify: restart shorewall
+  with_items:
+    - /etc/default/shorewall
+    - /etc/default/shorewall6
+  loop_control:
+    loop_var: shorewall_template_etc_default_shorewall_item
+  notify:
+    - restart shorewall
+    - restart shorewall6
 
 - name: template shorewall config files
   template:
@@ -54,3 +63,22 @@
   loop_control:
     loop_var: shorewall_config_file
   notify: restart shorewall
+
+- name: template shorewall6 config files
+  template:
+    src: "templates/etc/shorewall6/{{ shorewall_config_file }}.j2"
+    dest: "/etc/shorewall6/{{ shorewall_config_file }}"
+    owner: root
+    group: root
+    mode: 0640
+  with_items:
+    - shorewall6.conf
+    - zones
+    - interfaces
+    - policy
+    - snat
+    - tunnels
+    - rules
+  loop_control:
+    loop_var: shorewall6_config_file
+  notify: restart shorewall6

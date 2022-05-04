@@ -28,6 +28,7 @@
     # shorewall.conf
     # shorewall_conf_startup_enabled: "No"
     shorewall_conf_ip_forwarding: "On"
+    shorewall6_conf_ip_forwarding: "On"
 
     # nics and ips
     shorewall_nic_pub: "{{ nic_pub }}"
@@ -83,6 +84,11 @@
         proto: tcp
         dest_ports: 22,2200,2222
         action: ACCEPT
+      - name: allow vagrant DNS to all
+        src: local
+        dest: pub
+        action: DNS(ACCEPT)
+    shorewall6_rules_custom:
       - name: allow vagrant DNS to all
         src: local
         dest: pub

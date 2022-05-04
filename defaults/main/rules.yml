@@ -62,6 +62,7 @@ shorewall_rules_default:
     action: Ping(ACCEPT)
 
   # OUTGOING TO SPECIFIC PUB
+  # TODO specify dnscrypt-proxy servers
   - name: allow outgoing dnscrypt-proxy queries to pub
     src: local
     dest: "pub"
@@ -79,7 +80,7 @@ shorewall_rules_default:
     dest: "pub:{{ shorewall_ntp_servers_hosting_provider | join(',') }}"
     action: NTP(ACCEPT)
 
-  - name: allow outgoing STMP to pub:shorewall_smtp_servers
+  - name: allow outgoing SMTP to pub:shorewall_smtp_servers
     src: local
     dest: "pub:{{ shorewall_smtp_servers | join(',') }}"
     proto: tcp
@@ -97,7 +98,7 @@ shorewall_rules_default:
     dest: all
     action: AllowICMPs(ACCEPT)
 
-  - name: allow cloning git repositories to pub
+  - name: allow outgoing git to pub
     src: local
     dest: pub
     action: Git(ACCEPT)
