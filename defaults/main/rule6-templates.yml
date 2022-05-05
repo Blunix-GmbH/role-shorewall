@@ -1,0 +1,68 @@
+shorewall6_rule_templates: []
+shorewall6_rule_templates_list: []
+
+# Gateway Wireguard
+shorewall6_rule_template_util_gateway:
+  - name: allow incoming SSH from pub
+    src: pub
+    dest: local
+    action: SSH(ACCEPT)
+  - name: allow incoming wireguard from pub
+    src: pub
+    dest: local
+    dest_ports: 51820
+    proto: udp
+    action: ACCEPT
+
+# Monitoring Prometheus / Grafana
+shorewall6_rule_template_util_monitoring: {}
+
+# Log Graylog
+shorewall6_rule_template_util_log: {}
+
+# Backup Borgbackup
+shorewall6_rule_template_util_backup: {}
+
+# Gitlab
+shorewall6_rule_template_util_git: {}
+shorewall6_rule_template_util_git_pub:
+  - name: allow incoming HTTPS from pub
+    src: pub
+    dest: local
+    action: HTTPS(ACCEPT)
+  - name: allow incoming git from pub
+    src: pub
+    dest: local
+    action: Git(ACCEPT)
+
+# Gitlab CI
+shorewall6_rule_template_util_gitci: {}
+
+# GITLAB CLIENT (git clone)
+shorewall6_rule_template_git_client: {}
+
+# HTTP / HTTPS
+shorewall6_rule_template_inc_pub_http:
+  - name: allow incoming http from pub
+    src: pub
+    dest: local
+    proto: tcp
+    dest_ports: 80
+    action: ACCEPT
+  - name: allow incoming https from pub
+    src: pub
+    dest: local
+    action: HTTPS(ACCEPT)
+shorewall6_rule_template_inc_mesh_gw_http: {}
+
+# SSH
+shorewall6_rule_template_inc_pub_ssh:
+  - name: allow incoming SSH from pub
+    src: pub
+    dest: local
+    action: SSH(ACCEPT)
+shorewall6_rule_template_out_pub_ssh:
+  - name: allow outgoing SSH to pub
+    src: local
+    dest: pub
+    action: SSH(ACCEPT)

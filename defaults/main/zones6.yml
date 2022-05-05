@@ -1,0 +1,14 @@
+shorewall6_zones_custom: []
+shorewall6_zones_default:
+  # loopback zone
+  - name: local
+    in_options: ""
+    options: ""
+    out_options: ""
+    type: firewall
+  # public exposed nic
+  - name: pub
+    in_options: ""
+    options: "dhcp"
+    out_options: ""
+    type: ipv6

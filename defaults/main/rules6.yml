@@ -1,0 +1,27 @@
+shorewall6_rules_custom: []
+shorewall6_rules_default:
+
+  # OUTGOING TO SPECIFIC PUB
+  # TODO specify dnscrypt-proxy servers
+  - name: allow outgoing dnscrypt-proxy queries to pub
+    src: local
+    dest: "pub"
+    proto: udp
+    dest_ports: 443,8443
+    action: ACCEPT
+
+  # OUTGOING TO PUB
+  - name: allow important ICMP (route-negotiation and time-exceeded) to all
+    src: local
+    dest: all
+    action: AllowICMPs(ACCEPT)
+
+  - name: allow outgoing git to pub
+    src: local
+    dest: pub
+    action: Git(ACCEPT)
+
+  - name: allow outgoing HTTP and HTTPS to pub
+    src: local
+    dest: pub
+    action: Web(ACCEPT)

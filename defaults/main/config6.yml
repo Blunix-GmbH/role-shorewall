@@ -1,0 +1,10 @@
+# /etc/shorewall/shorewall6.conf
+shorewall6_conf_startup_enabled: 'Yes'  # [Yes|No]
+shorewall6_conf_ip_forwarding: 'Off' # [On|Off|Keep]
+shorewall6_conf_logformat: 'shorewall:%s:%s:'  # ["formattemplate"]
+shorewall6_conf_logfile: '/var/log/syslog'  # [pathname] - Default is /var/log/messages
+shorewall6_conf_logtagonly: 'No'  # [Yes|No]
+shorewall6_conf_log_backend: ''
+shorewall6_conf_log_verbosity: '2'  # [-1=disabled|0=Silent|1=Major|2=All]
+shorewall6_conf_startup_log: '/var/log/shorewall6-init.log'  # [pathname]
+shorewall6_conf_verbosity: '2'  # [0=Silent|1=Major|2=All]

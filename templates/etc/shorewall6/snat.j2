@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+#
+# Shorewall -- /etc/shorewall6/snat
+#
+# For information about entries in this file, type "man shorewall-snat"
+#
+# See http://shorewall.net/manpages/shorewall-snat.html for more information
+#
+###########################################################################################################################################
+#ACTION                 SOURCE                  DEST            PROTO   PORT    IPSEC   MARK    USER    SWITCH  ORIGDEST        PROBABILITY
+{% for shorewall6_snat_item in shorewall6_snat %}
+MASQUERADE {{ shorewall6_snat_item['source'] }} {{ shorewall6_snat_item['dest'] }}
+{% endfor %}
