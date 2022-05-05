@@ -20,7 +20,7 @@
 - name: check shorewall6 syntax  # noqa 305
   shell: shorewall6 check
   register: check_shorewall6_syntax_out
-  listen: shorewall6 restart
+  listen: restart shorewall6
 
 - name: show check shorewall6 syntax output
   debug:
@@ -32,4 +32,4 @@
     name: shorewall6
     state: restarted
     enabled: True
-  listen: shorewall6 restart
+  listen: restart shorewall6

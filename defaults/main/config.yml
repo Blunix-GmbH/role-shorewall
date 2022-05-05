@@ -13,13 +13,3 @@ shorewall_conf_multicast: 'No'  # [Yes|No]
 shorewall_conf_startup_log: '/var/log/shorewall-init.log'  # [pathname]
 shorewall_conf_verbosity: '2'  # [0=Silent|1=Major|2=All]
 shorewall_conf_disable_ipv6: 'No'
-
-# /etc/shorewall/shorewall6.conf
-shorewall6_conf_startup_enabled: 'Yes'  # [Yes|No]
-shorewall6_conf_ip_forwarding: 'Off' # [On|Off|Keep]
-shorewall6_conf_logformat: 'shorewall6:%s:%s:'  # ["formattemplate"]
-shorewall6_conf_logfile: '/var/log/syslog'  # [pathname] - Default is /var/log/messages
-shorewall6_conf_log_backend: ''
-shorewall6_conf_log_verbosity: '2'  # [-1=disabled|0=Silent|1=Major|2=All]
-shorewall6_conf_startup_log: '/var/log/shorewall-init.log'  # [pathname]
-shorewall6_conf_verbosity: '2'  # [0=Silent|1=Major|2=All]

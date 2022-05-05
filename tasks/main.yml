@@ -1,11 +1,23 @@
 - name: append available custom variables to default variables
   set_fact:
+
+    # shorewall4
     shorewall_zones: "{{ shorewall_zones_default + shorewall_zones_custom }}"
     shorewall_interfaces: "{{ shorewall_interfaces_default + shorewall_interfaces_custom }}"
     shorewall_snat: "{{ shorewall_snat_default + shorewall_snat_custom }}"
     shorewall_tunnels: "{{ shorewall_tunnels_default + shorewall_tunnels_custom }}"
     # custom policies have to be loaded before final default policy to reject all
     shorewall_policies: "{{ shorewall_policies_custom + shorewall_policies_default }}"
+
+    # shorewall6
+    shorewall6_zones: "{{ shorewall6_zones_default + shorewall6_zones_custom }}"
+    shorewall6_interfaces: "{{ shorewall6_interfaces_default + shorewall6_interfaces_custom }}"
+    shorewall6_snat: "{{ shorewall6_snat_default + shorewall6_snat_custom }}"
+    shorewall6_tunnels: "{{ shorewall6_tunnels_default + shorewall6_tunnels_custom }}"
+    # custom policies have to be loaded before final default policy to reject all
+    shorewall6_policies: "{{ shorewall6_policies_custom + shorewall6_policies_default }}"
+
+
 
 - name: lookup all shorewall_rule_templates and combine into shorewall_rule_templates_list
   set_fact:
@@ -14,11 +26,26 @@
   loop_control:
     loop_var: shorewall_rule_template
 
+- name: lookup all shorewall6_rule_templates and combine into shorewall6_rule_templates_list
+  set_fact:
+    shorewall6_rule_templates_list: "{{ shorewall6_rule_templates_list + lookup('vars', 'shorewall6_rule_template_' + shorewall6_rule_template) }}"
+  with_items: "{{ shorewall6_rule_templates }}"
+  loop_control:
+    loop_var: shorewall6_rule_template
+
+
+
 - name: combine shorewall_default_rules + shorewall_rule_templates_list + shorewall_rules_custom
   set_fact:
     shorewall_rules:
       - section: NEW
         rules: "{{ shorewall_rules_default + shorewall_rule_templates_list + shorewall_rules_custom }}"
+
+- name: combine shorewall6_default_rules + shorewall6_rule_templates_list + shorewall6_rules_custom
+  set_fact:
+    shorewall6_rules:
+      - section: NEW
+        rules: "{{ shorewall6_rules_default + shorewall6_rule_templates_list + shorewall6_rules_custom }}"
 
 
 
@@ -66,8 +93,8 @@
 
 - name: template shorewall6 config files
   template:
-    src: "templates/etc/shorewall6/{{ shorewall_config_file }}.j2"
-    dest: "/etc/shorewall6/{{ shorewall_config_file }}"
+    src: "templates/etc/shorewall6/{{ shorewall6_config_file }}.j2"
+    dest: "/etc/shorewall6/{{ shorewall6_config_file }}"
     owner: root
     group: root
     mode: 0640

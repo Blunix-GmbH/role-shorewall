@@ -1,0 +1,6 @@
+shorewall6_interfaces_custom: []
+shorewall6_interfaces_default:
+  # All servers have a nic for traffic from public
+  - name: "{{ shorewall_nic_pub }}"
+    zone: pub
+    options: nosmurfs,tcpflags,dhcp

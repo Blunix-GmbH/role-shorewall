@@ -17,7 +17,7 @@ shorewall_rules_default:
     action: ACCEPT
 
   # INCOMING FROM PUB:GATEWAYS
-  - name: allow incoming SSH from pub:gateays
+  - name: allow incoming SSH from pub:gateways
     src: "pub:{{ shorewall_util_pub_ip_gateway_1 }},{{ shorewall_util_pub_ip_gateway_2 }}"
     dest: local
     action: SSH(ACCEPT)
