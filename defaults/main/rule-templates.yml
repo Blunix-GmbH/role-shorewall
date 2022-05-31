@@ -107,8 +107,47 @@ shorewall_rule_template_git_client:
   - name: allow outgoing git to mesh:git
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_git_1 }}"
-    proto: tcp
     action: Git(ACCEPT)
+
+
+# UTIL DEPLOY
+shorewall_rule_template_util_deploy:
+  - name: allow docker image to git.blunix.com (ansible-cake)
+    src: local
+    dest: "pub:git.blunix.com"
+    proto: tcp
+    dest_ports: 5050
+    action: ACCEPT
+  - name: allow outgoing ssh to mesh (ansible-cake)
+    src: local
+    dest: "mesh"
+    action: SSH(ACCEPT)
+  - name: allow outgoing ssh to pub (ansible-cake)
+    src: local
+    dest: "pub"
+    action: SSH(ACCEPT)
+  - name: allow incoming SSH from docker to local (ansible-cake)
+    src: dock
+    dest: local
+    action: SSH(ACCEPT)
+  - name: allow outgoing SSH from docker to pub (ansible-cake)
+    src: dock
+    dest: pub
+    action: SSH(ACCEPT)
+  - name: allow outgoing SSH from docker to mesh (ansible-cake)
+    src: dock
+    dest: mesh
+    action: SSH(ACCEPT)
+  - name: allow outgoing HTTP from docker to pub (ansible-cake)
+    src: dock
+    dest: pub
+    action: Web(ACCEPT)
+  - name: allow outgoing HTTP from docker to mesh (ansible-cake)
+    src: dock
+    dest: mesh
+    action: Web(ACCEPT)
+
+
 
 # HTTP / HTTPS
 shorewall_rule_template_inc_pub_http:
