@@ -40,7 +40,7 @@ shorewall_rules_default:
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_log_1 }}"
     proto: udp
-    dest_ports: 5460
+    dest_ports: 5140
     action: ACCEPT
 
   - name: allow outgoing ssh to mesh:backup
