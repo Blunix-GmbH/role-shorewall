@@ -109,3 +109,13 @@
   loop_control:
     loop_var: shorewall6_config_file
   notify: restart shorewall6
+
+- name: enable systemd services
+  systemd:
+    name: "{{ shorewall_systemd_service }}"
+    enabled: True
+  with_items:
+    - shorewall
+    - shorewall6
+  loop_control:
+    loop_var: shorewall_systemd_service
