@@ -123,7 +123,7 @@
   loop_control:
     loop_var: shorewall_systemd_file
   notify:
-    - reload systemd-daemon
+    - reload systemd daemon
     - restart shorewall
     - restart shorewall6
 
