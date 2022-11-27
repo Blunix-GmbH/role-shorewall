@@ -112,7 +112,7 @@
 
 - name: patch /lib/systemd/system/shorewall.service
   template:
-    src: "templates/{{ shorewall_systemd_file }}.j2"
+    src: "templates{{ shorewall_systemd_file }}.j2"
     dest: "{{ shorewall_systemd_file }}"
     owner: root
     group: root
