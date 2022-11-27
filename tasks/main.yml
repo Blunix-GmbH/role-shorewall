@@ -110,6 +110,23 @@
     loop_var: shorewall6_config_file
   notify: restart shorewall6
 
+- name: patch /lib/systemd/system/shorewall.service
+  template:
+    src: "templates/{{ shorewall_systemd_file }}.j2"
+    dest: "{{ shorewall_systemd_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - /lib/systemd/system/shorewall.service
+    - /lib/systemd/system/shorewall6.service
+  loop_control:
+    loop_var: shorewall_systemd_file
+  notify:
+    - reload systemd-daemon
+    - restart shorewall
+    - restart shorewall6
+
 - name: enable systemd services
   systemd:
     name: "{{ shorewall_systemd_service }}"
