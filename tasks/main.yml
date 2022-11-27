@@ -127,12 +127,12 @@
     - restart shorewall
     - restart shorewall6
 
-- name: enable systemd services
+- name: enable shorewall systemd service
   systemd:
-    name: "{{ shorewall_systemd_service }}"
+    name: shorewall
     enabled: True
-  with_items:
-    - shorewall
-    - shorewall6
-  loop_control:
-    loop_var: shorewall_systemd_service
+
+- name: enable shorewall6 systemd service
+  systemd:
+    name: shorewall6
+    enabled: True
