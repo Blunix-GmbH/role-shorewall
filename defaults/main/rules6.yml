@@ -25,3 +25,8 @@ shorewall6_rules_default:
     src: local
     dest: pub
     action: Web(ACCEPT)
+
+  - name: allow outgoing NTP queries to the hosting providers NTP servers
+    src: local
+    dest: "pub:{{ shorewall_ntp_servers_hosting_provider | join(',') }}"
+    action: NTP(ACCEPT)
