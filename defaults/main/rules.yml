@@ -35,12 +35,12 @@ shorewall_rules_default:
     proto: tcp
     action: ACCEPT
 
-  # OUTGOING TO UTILITY STACK VIA mesh
-  - name: allow outgoing syslog to mesh:log
+  # OUTGOING TO UTILITY STACK VIA MESH
+  - name: allow outgoing systemd-journal-upload to mesh:log
     src: local
     dest: "mesh:{{ shorewall_util_wg_mesh_ip_log_1 }}"
-    proto: udp
-    dest_ports: 5460
+    proto: tcp
+    dest_ports: 19532
     action: ACCEPT
 
   - name: allow outgoing ssh to mesh:backup

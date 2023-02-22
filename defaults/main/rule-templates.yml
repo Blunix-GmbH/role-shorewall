@@ -39,17 +39,17 @@ shorewall_rule_template_util_monitoring:
     proto: tcp
     action: ACCEPT
 
-# Log Graylog
+# Log systemd-journal-upload
 shorewall_rule_template_util_log:
   - name: allow incoming https from mesh:gateways
     src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
     dest: local
     action: HTTPS(ACCEPT)
-  - name: allow incoming syslog from mesh
+  - name: allow incoming systemd-journal-upload from mesh
     src: mesh
     dest: local
-    dest_ports: 5140
-    proto: udp
+    dest_ports: 19532
+    proto: tcp
     action: ACCEPT
 
 # Backup Borgbackup
