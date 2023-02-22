@@ -41,10 +41,6 @@ shorewall_rule_template_util_monitoring:
 
 # Log systemd-journal-upload
 shorewall_rule_template_util_log:
-  - name: allow incoming https from mesh:gateways
-    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
-    dest: local
-    action: HTTPS(ACCEPT)
   - name: allow incoming systemd-journal-upload from mesh
     src: mesh
     dest: local
