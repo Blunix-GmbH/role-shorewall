@@ -80,13 +80,6 @@ shorewall_rules_default:
     dest: "pub:{{ shorewall_ntp_servers_hosting_provider | join(',') }}"
     action: NTP(ACCEPT)
 
-  - name: allow outgoing SMTP to pub:shorewall_smtp_servers
-    src: local
-    dest: "pub:{{ shorewall_smtp_servers | join(',') }}"
-    proto: tcp
-    dest_ports: 25,465,587
-    action: ACCEPT
-
   - name: allow hkp (gpg public key servers) to pub:shorewall_hkp_servers
     src: local
     dest: "pub:{{ shorewall_hkp_servers | join(',') }}"
