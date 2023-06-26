@@ -169,6 +169,8 @@ DISABLE_IPV6={{ shorewall_conf_disable_ipv6 }}
 
 {% if shorewall_conf_docker != "No" or shorewall_docker == True %}
 DOCKER=Yes
+{% else %}
+Docker=No
 {% endif %}
 
 DONT_LOAD=
@@ -191,8 +193,10 @@ IMPLICIT_CONTINUE=No
 
 IPSET_WARNINGS=Yes
 
-{% if shorewall_conf_ip_forwarding != "No" or shorewall_docker == True %}
+{% if shorewall_conf_ip_forwarding != "Off" or shorewall_docker == True %}
 IP_FORWARDING=Yes
+{% else %}
+IP_FORWARDING=No
 {% endif %}
 
 KEEP_RT_TABLES=No
