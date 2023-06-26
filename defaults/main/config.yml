@@ -13,3 +13,5 @@ shorewall_conf_multicast: 'No'  # [Yes|No]
 shorewall_conf_startup_log: '/var/log/shorewall-init.log'  # [pathname]
 shorewall_conf_verbosity: '2'  # [0=Silent|1=Major|2=All]
 shorewall_conf_disable_ipv6: 'No'
+
+shorewall_docker: False
