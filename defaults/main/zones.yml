@@ -18,3 +18,19 @@ shorewall_zones_default:
     options: ""
     out_options: ""
     type: ipv4
+shorewall_zones_docker:
+  - name: "dock1"
+    in_options: ""
+    options: ""
+    out_options: ""
+    type: ipv4
+  - name: "dock2"
+    in_options: ""
+    options: ""
+    out_options: ""
+    type: ipv4
+  - name: "dock3"
+    in_options: ""
+    options: ""
+    out_options: ""
+    type: ipv4

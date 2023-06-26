@@ -8,3 +8,13 @@ shorewall_interfaces_default:
   - name: mesh
     zone: mesh
     options: "tcpflags,nosmurfs,routefilter,logmartians"
+shorewall_interfaces_docker:
+  - name: "docker0"
+    zone: dock1
+    options: tcpflags,nosmurfs,routefilter,logmartians
+  - name: "veth+"
+    zone: dock2
+    options: tcpflags,nosmurfs,routefilter,logmartians
+  - name: "br+"
+    zone: dock3
+    options: tcpflags,nosmurfs,routefilter,logmartians

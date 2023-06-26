@@ -167,7 +167,9 @@ DETECT_DNAT_IPADDRS=No
 
 DISABLE_IPV6={{ shorewall_conf_disable_ipv6 }}
 
-DOCKER={{ shorewall_conf_docker }}
+{% if shorewall_conf_docker != "No" or shorewall_docker == True %}
+DOCKER=Yes
+{% endif %}
 
 DONT_LOAD=
 
@@ -189,7 +191,9 @@ IMPLICIT_CONTINUE=No
 
 IPSET_WARNINGS=Yes
 
-IP_FORWARDING={{ shorewall_conf_ip_forwarding }}
+{% if shorewall_conf_ip_forwarding != "No" or shorewall_docker == True %}
+IP_FORWARDING=Yes
+{% endif %}
 
 KEEP_RT_TABLES=No
 

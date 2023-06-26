@@ -14,3 +14,22 @@ shorewall_policies_default:
     dest: all
     policy: REJECT
     log_level: info
+shorewall_policies_docker:
+  - source: dock1
+    dest: all
+    policy: ACCEPT
+  - source: dock2
+    dest: all
+    policy: ACCEPT
+  - source: dock3
+    dest: all
+    policy: ACCEPT
+  - source: local
+    dest: dock1
+    policy: ACCEPT
+  - source: local
+    dest: dock2
+    policy: ACCEPT
+  - source: local
+    dest: dock3
+    policy: ACCEPT
