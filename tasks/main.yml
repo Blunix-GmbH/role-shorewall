@@ -22,7 +22,7 @@
   set_fact:
     shorewall_zones: "{{ shorewall_zones + shorewall_zones_docker }}"
     shorewall_interfaces: "{{ shorewall_interfaces + shorewall_interfaces_docker }}"
-    shorewall_policies: "{{ shorewall_policies + shorewall_policies_docker }}"
+    shorewall_policies: "{{ shorewall_policies_docker + shorewall_policies }}"
   when: shorewall_docker == True
 
 
