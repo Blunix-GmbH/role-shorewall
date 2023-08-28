@@ -168,11 +168,6 @@ shorewall_rule_template_inc_mesh_gw_http:
     src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
     dest: local
     action: HTTPS(ACCEPT)
-shorewall_rule_template_inc_mesh_gw_ssh:
-  - name: allow incoming ssh from mesh:gateways
-    src: "mesh:{{ shorewall_util_wg_mesh_ip_gateway_1 }},{{ shorewall_util_wg_mesh_ip_gateway_2 }}"
-    dest: local
-    action: SSH(ACCEPT)
 
 # SSH
 shorewall_rule_template_inc_pub_ssh:
