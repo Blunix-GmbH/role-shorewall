@@ -1,12 +1,19 @@
-# blunix_role-shorewall
+# blunix.role-shorewall
 This Ansible role installs and configures shorewall.
 
-This role is part of the Blunix hosting stack. Learn how to use it at <a href="https://man.blunix.com/" target="_blank">man.blunix.com</a>.
+This role is part of the Blunix hosting stack. Documentation is available at <a href="https://www.blunix.com/manual" target="_blank">https://www.blunix.com/manual</a>.
+
+
+# Mirror to github
+This repository is mirrored from <a href="https://git.blunix.com/ansible-roles/" target="_blank">https://git.blunix.com/ansible-roles/</a> to github.com/Blunix-GmbH/.
+
 
 # Author Information
-Blunix GmbH - Consulting for Linux Hosting 24/7
+Blunix GmbH
 
-Blunix GmbH provides 24/7 support with Service Level Agreements for Debian Linux based hosting environments which are automated with Ansible.
+`root@linux:~# Consulting | Hosting | Training`
+
+Blunix GmbH provides 24/7/365 Linux emergency consulting and support, Service Level Agreements for Debian Linux managed hosting using Ansible Configuration Management as well as Linux trainings and workshops.
 
 ```
 Blunix GmbH
@@ -15,10 +22,7 @@ Glogauer Straße 21
 Germany
 
 Website: https://www.blunix.com
-E-Mail:  contact@blunix.com
-gpg key: https://www.blunix.com/contact-blunix-com-gpg-key
-Signal:  +49 30 629 318 76
-Matrix:  #blunix:matrix.org
+Contact: https://www.blunix.com#contact
 ```
 
 # License
